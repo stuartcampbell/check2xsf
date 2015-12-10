@@ -1,0 +1,11 @@
+With luck, this should build with any reasonable ANSI C89 compiler.
+Edit the Makefile to suit, type "make", and copy the resulting
+check2xsf wherever you like. The man page is check2xsf.1.
+
+One warning about pointers may be produced by check_read.c -- it is not
+a major problem. Honest.
+
+[Details: IEEE floating point storage, with 8 byte doubles, is assumed.
+          Both big and little endian machines should work fine.]
+
+MJR, 1/2007

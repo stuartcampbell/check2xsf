@@ -1,0 +1,10 @@
+# Use wildcards to avoid having to update source list
+
+NAME:=check2xsf_$(shell ./echo_ver )
+
+tar:
+	mkdir $(NAME)
+	cp *.c *.h check2xsf.1 Makefile README TODO INSTALL \
+ ChangeLog echo_ver LICENCE FAQ gmake.tar $(NAME)/
+	tar -cvzf check2xsf.tgz $(NAME)
+	rm -r $(NAME)

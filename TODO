@@ -1,0 +1,13 @@
+Intentions for version 1.1
+--------------------------
+
+Faster FFT?
+Expand psi at k!=Gamma into supercell, dealing with phase correctly?
+NMR tensors?
+Electrostatic potential?
+Trim vacuum region for molecules?
+
+Of the above, the electrostatic potential is currently the most likely
+to happen sometime in 2008. However, it will depend on who hassles me about
+what. MJR 9/2007.
+

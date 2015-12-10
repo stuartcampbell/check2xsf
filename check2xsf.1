@@ -1,0 +1,244 @@
+.TH check2xsf 1
+.SH NAME
+check2xsf - converts various crystal formats including density grid data
+
+.SH SYNOPSIS
+.B check2xsf
+[-bBkmvx] [--FORMAT] infile [outfile]
+
+.SH DESCRIPTION
+
+.B check2xsf
+converts primarily a CASTEP .check file to various output formats,
+additionally extracting densities (charge, spin, band or psi) and forces. It
+can also read CASTEP .cell files and PDB files. It is a sort of Babel with
+support for gridded data and .check files.
+
+.LP
+An input file whose name ends '.pdb' is assumed to be in pdb
+format. Otherwise, if the first byte is either zero or 30 it is assumed to be
+a .check file, else it is assumed to be a .cell file.
+
+.SH OPTIONS
+
+.LP
+.TP
+.B \-a
+rotate as though outputing in abc format, i.e. place a along x axis, and b
+in xy plane. Useful if one wants a dx file consistent with a pdb file.
+.TP
+.B \-A
+accumulate (sum) bands requested by
+.B \-b=
+or
+.B \-B=
+.TP
+.B \-b[=range]
+include specified bands as psi (real).
+.TP
+.B \-B[=range]
+include specified bands as densities (psi*conjg(psi)).
+.TP
+.B \-c
+include charge density.
+.TP
+.B \-H
+shift atoms by half a grid cell. For use with xplor data format, see below.
+.TP
+.B \-k[=range]
+include given kpoints for bands (default range is 1)
+.TP
+.B \-m[=a,b,c]
+assume input is molecule, not crystal. Try to avoid outputing a cell,
+shift if some co-ordinates are negative, or if a,b,c given shift by
+those numbers of FFT grid cells.
+.TP
+.B \-R
+don't attempt to rescale densities, but output them raw.
+.TP
+.B \-s
+include spin density
+.TP
+.B \-S[=range]
+include specified spins for bands (default range is -, and the spins are
+numbered 0 and 1)
+.TP
+.B \-t=(x1,y1,z1)(x2,y2,z2)
+rotate co-ordinate system so that the first vector becomes the second. Both
+vectors given in relative co-ordinate.
+.TP
+.B \-T=(x1,y1,z1)(x2,y2,z2)
+rotate co-ordinate system so that the first vector becomes the second. First
+vector given in absolute co-ordinates.
+.TP
+.B \-v
+be verbose. Far too much output can be generated if specified more than twice.
+.TP
+.B \-x
+expand 'conventional' 2-atom cubic/hexagonal cell to full cubic/hexagonal
+cell automatically.
+.TP
+.B \-x=(x1,x2,x3)(y1,y2,y3)(z1,z2,z3)
+expand unit cell to new cell specified in terms of the old cell axes.
+.TP
+.B \-X=(x1,x2,x3)(y1,y2,y3)(z1,z2,z3)
+expand unit cell to new cell specified in absolute co-ordinates.
+
+.SH FORMATS
+
+.LP
+The following output formats are recognised.
+
+.TP
+.B \-\-cell
+CASTEP .cell, cartesian cell, fractional co-ordinates. The output contains
+just the lattice and positions blocks, so is not a valid input to CASTEP, but
+can easily be made so.
+.TP
+.B \-\-cell_abc
+CASTEP .cell, abc cell, fractional co-ordinates.
+.TP
+.B \-\-cell_abs
+CASTEP .cell, cartesian cell, absolute co-ordinates.
+.TP
+.B \-\-cell_abc_abs
+CASTEP .cell, abc cell, absolute co-ordinates.
+.TP
+.B \-\-cml
+Chemical Markup Language
+.TP
+.B \-\-cube
+Gaussian cube. Atoms and at most one data set.
+.TP
+.B \-\-dx
+Data Explorer. Data set only.
+.TP
+.B \-\-fdf
+Siesta. Current support is very partial. If you want a density, you must
+name the output file on the command line, the filename must end ".fdf",
+and the density will appear in a corresponding ".RHO" file.
+.TP
+.B \-\-null
+Null output. Throw away all output, but still write some useful information
+the input to stderr.
+.TP
+.B \-\-pdb
+PDB
+.TP
+.B \-\-pdbn
+PDB, but label the atoms with element symbol and number within that species,
+e.g. C8, H24, Ca2, rather than just with element symbol. The whole string
+can contain no more than four characters, so * is used for the numeric part
+if it would not otherwise fit.
+.TP
+.B \-\-vasp
+VASP output. One should almost certainly specify -R as well.
+.TP
+.B \-\-xplor
+Xplor format. Data set only. The grid used in this format is offset by half
+a grid cell compared to Castep, and as interpolating is inexact, this program
+does not in this case. Also the grid axes are described in terms of a, b, c,
+alpha, beta, gamma, so information about orientation in space is lost. To
+produce a compatible pdb file of atomic co-ordinates, specify
+.I \-Hc
+when creating the pdb file.
+.TP
+.B \-\-xsf
+XCrysDen format. Default. The only format in which multiple data sets are
+supported.
+.TP
+.B \-\-xyz
+XYZ format. Atoms only, no unit cell.
+
+.LP
+Where a range is required, it can be specified as a single integer, two
+integers separated by a hyphen (all integers in the given range), or a
+comma-separated list of any of these elements. Only for the xsf output format
+is a range including more than a single integer meaningful.
+
+.SH NOTES
+
+.LP
+For cell and pdb formats, just the unit cell and atomic positions are read or
+written. For the dx and xplor formats, just a single data set is written. For
+the VASP format atomic positions and a data set are written, but information
+regarding atomic species cannot be recorded. For the Gaussian cube format
+atomic positions and at most one data set are recorded, and for the XCrysDen
+format the unit cell, atomic positions, forces, and any number of data sets are
+recorded.
+
+.LP
+Note that the pdb format offers a very low precision for storing co-ordinates,
+and, because it stores the unit cell in abc format, and the atoms in absolute
+coordinates, a rotation is likely to be required to place
+.B a
+on the cartesian
+.B x
+axis, etc. If so, it will be done automatically. The same is true for the abc
+varients of the cell format and for the Xplor file format. This rotation can be
+specified explicitly for other formats.
+
+.LP
+When outputting psi it is assumed that it is possible to make psi real
+by unwinding any phase produced by the k-point, and then multiplying
+all points by the same arbitrary complex constant. If this is not so,
+the band was probably nonsense anyway. The final choice of a factor of
+-1 is arbitrary. This scheme produces nonsense if one attempts to
+plot a degenerate band.
+
+.LP
+When doing the conversions resulting from -x, a new grid will be
+chosen of similar density to the old, and the data interpolated onto
+the new using trilinear interpolation. Extrapolating psis (rather than
+densities) is meaningless except at gamma, for the phase due to the k
+point is not considered.
+
+.LP
+Densities by default are in Angstroms**-3, and psis in Angstroms**-1.5.
+
+.SH EXAMPLES
+
+.LP
+To extract the charge density in xsf format
+.IP
+check2xsf -c input.check output.xsf
+
+.LP
+To extract the first four bands as psi at the second k-point in xsf format
+.IP
+check2xsf -b=1-4 -k=2 input.check output.xsf
+
+.LP
+To convert a check file to a pdb file
+.IP
+check2xsf --pdb input.check output.pdb
+
+.LP
+To convert a cell to something containing two repeat units in the a
+and b directions, and one in the c direction
+.IP
+check2xsf --cell -x='(2,0,0)(0,2,0)(0,0,1)' in.cell out.cell
+
+.LP
+Assuming the above cell was a 3.5A cube, the same in absolute co-ordinates
+.IP
+check2xsf --cell -x='(7,0,0)(0,7,0)(0,0,3.5)' in.cell out.cell
+
+
+.SH VIEWERS
+
+This code was written with the following viewers in mind. For densities,
+xcrysden and jmol, for structures gdis.
+
+.SH BUGS
+
+When reading cell or pdb files, only the first 2000 atoms are read.
+No such limit exists for check files. Excuse: the program was designed
+for analysing Castep check files.
+
+
+Please report others to MJR.
+
+.SH SEE ALSO
+
+babel(1).

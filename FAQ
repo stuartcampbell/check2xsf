@@ -1,0 +1,99 @@
+Favourite Anticipated Questions
+-------------------------------
+
+1/ What is Castep?
+
+2/ I have this problem with Castep...
+
+3/ There is a bug in your code!
+
+4/ Can I modify / distribute your code?
+
+5/ Where can I find the latest version?
+
+6/ Does check2xsf run on Windows / MacOS / My Weird System?
+
+7/ How do wavefunctions get reduced to being real?
+
+8/ Does you code suffer from buffer overflows?
+
+9/ How can I read check2xsf.1?
+
+10/ Why C?!
+
+Z/ How can I contact you?
+
+----------------------------------------------------------------------
+
+1/  What is Castep?
+
+See www.castep.org. If you don't use Castep, this code is unlikely to
+be very useful.
+
+2/ I have this problem with Castep...
+
+I am not interested.
+
+3/ There is a bug in your code!
+
+Just one? Golly. Feel free to report it. Please don't send me emails
+of more than about 100K -- if I need some data files to reproduce the
+problem, I'll ask. The output of check2xsf given "-vvv" may be
+helpful, depending on the nature of the problem.
+
+4/ Can I modify / distribute your code?
+
+Surely. It is licenced under the GPL, version 2, which explicitly
+permits this in most cases. If your case is incompatible with the GPL
+(such as you wish to incorporate parts of the source in a non-GPL
+code) then you are reminded that this is not permitted, but that the
+author retains full right to the code, so it might be possible to
+persuade him to allow you to use a different licence.
+
+If you wish to send me modifications to incorporate into the version I
+distribute, feel free. It would make my life less complicated if you
+assign copyright to me as you do so, so I shall assume that you wish
+to do so unless you explicitly state otherwise.
+
+5/  Where can I find the latest version?
+
+A search engine may be best. Otherwise try
+http://www.tcm.phy.cam.ac.uk/~mjr/
+
+6/ Does check2xsf run on Windows / MacOS / My Weird System?
+
+It should compile on anything with an ANSI C (1989) compiler, IEEE
+floating point representation and four byte integers. It should run on
+either endianness. It was written for Linux/IA32 and Solaris/SPARC.
+
+7/ How do wavefunctions get reduced to being real?
+
+If two wavefunctions are degenerate, the code will fail silently. Bother.
+
+If one is at the gamma point, there is simply a constant phase factor.
+
+Away from the gamma point, attempting to make the wavefunction real is
+probably only meaningful in isolated systems where quarter points have
+been used to minimise interactions between periodic images. The code
+removes the phase introduced by the k-point.
+
+8/ Does you code suffer from buffer overflows?
+
+Yes. So if someone carefully crafts a mangled .check file, he can do
+nasty things to you via this program.
+
+9/ How can I read check2xsf.1?
+
+It is a UNIX man page. "nroff -man check2xsf.1 | less -R" works for me.
+
+10/ Why C?!
+
+It seemed like the best way of reading either endianness automatically
+(at the time I was using both Solaris/SPARC and Linux/x86).
+
+Z/ How can I contact you?
+
+My email address is mjr19 at the obvious University (not departmental)
+domain. If that fails, try googlemail, but with user id changed to
+include my surname spelt in full.
+

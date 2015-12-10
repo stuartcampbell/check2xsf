@@ -1,0 +1,56 @@
+Changes in 1.0
+--------------
+
+None! (Save version in c2xsf.h)
+
+Changes in 1.0RC6
+-----------------
+
+-x= and -X= options added (I must stop adding features to RCs!)
+-t= and -T= options added (I must stop adding features to RCs!)
+Some output which used to appear at -vv moved to -vvv
+super() no longer forces axes to a right hand set
+super() sorts atoms, by atomic number, c, b, a, if compiled -DQSORT
+NULL output format introduced
+-H added, and x<->z inversion problem in xplor output solved
+Released under GPL v2
+
+Changes in 1.0RC5
+-----------------
+
+-m rewritten to cope with odd FFT grids, and to shift each axis independently
+-m=a,b,c introduced
+-vv lists bands indexed from 1 to nbands, not 0 to (nbands-1)
+-vv gives more precision for band evalues
+
+Changes in 1.0RC4
+-----------------
+
+CML introduced
+PDBN introduced
+--help recognised (as synonym for -h)
+All references to version number moved to c2xsf.h
+
+Changes in 1.0RC3
+-----------------
+
+Aborts cleanly if .cube output requested and no 3D data present
+Can now read .cell files with DOS line endings
+PDB files are now written with atom numbers starting from one, not zero.
+
+Changes in 1.0RC2
+-----------------
+
+.cell parsing improved marginally
+Serious bug concerning reading atomic symbols correctly from v4 .check
+  files squashed
+-V flag (print version and exit) added
+
+Introduced at 1.0RC1
+--------------------
+
+New FFT (should not be user-visible...)
+Different default scaling of psi
+Option to avoid scaling densities and psis
+Printing the integral of densities with -vv
+
