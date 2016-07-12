@@ -1,7 +1,7 @@
 Check2xsf
 ---------
 
-This program should conver CASTEP's .check, .castep_bin and .cell to various
+This program should convert CASTEP's .check, .castep_bin and .cell to various
 other formats, particularly so that they can be visualised with Jmol
 (http://www.jmol.org) or XCrysDen (http://www.xcrysden.org). Examples
 of check2xsf's use can be found at http://www.tcm.phy.cam.ac.uk/~mjr/vis/
